@@ -1,7 +1,9 @@
 const userInput = document.querySelector('#userName');
 const submit = document.querySelector('button');
 const dogImage = document.querySelector('.dog-image');
-const list = document.querySelector('.list')
+const inputContainer = document.querySelector('.javascript-inputs')
+// const list = document.querySelector('.list')
+const list = document.createElement('ol')
 console.log(userInput, submit);
 
 
@@ -17,19 +19,39 @@ submit.addEventListener('click',()=>{
             console.log(data.country)
             let i = 0;
             let countries = data.country;
-            for(country of countries){
-                let listItem = document.createElement('li')
-                let result = document.createElement('b');
-                countryCode = country.country_id
-                countryProb = country.probability
-                console.log(countryCode, countryProb)
-                result.innerText= `${countryCode}, ${countryProb}`
-                // list.appendChild(listItem)
-                listItem.append(result)
-                list.append(listItem)
-                // console.log(i)
-                // i++
+            if(data.country.length != 0){
+                while (list.hasChildNodes()) {
+                  list.removeChild(list.firstChild);
+                }
+                for (country of countries) {
+                  let listItem = document.createElement("li");
+                  let result = document.createElement("b");
+                  countryCode = country.country_id;
+                  countryProb = country.probability;
+                  console.log(countryCode, countryProb);
+                  result.innerText = `${countryCode}, ${countryProb}`;
+                  listItem.append(result);
+                  list.append(listItem);
+                  inputContainer.append(list)
+                }
+            }else{
+                while (list.hasChildNodes()) {
+                    list.removeChild(list.firstChild);
+                  }
+                let result = document.createElement("p");
+                result.innerText= `Looks like you don't have a nationality :(`
+                inputContainer.append(result)
             }
+            // for(country of countries){
+            //     let listItem = document.createElement('li')
+            //     let result = document.createElement('b');
+            //     countryCode = country.country_id
+            //     countryProb = country.probability
+            //     console.log(countryCode, countryProb)
+            //     result.innerText= `${countryCode}, ${countryProb}`
+            //     listItem.append(result)
+            //     list.append(listItem)
+            // }
         })
         .catch(e=>{
             console.log("Error", e);
