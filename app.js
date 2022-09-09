@@ -1,9 +1,10 @@
 const userInput = document.querySelector('#userName'); // User will input the name before submitting
 const submit = document.querySelector('button');
 const dogImage = document.querySelector('.dog-image');
-const inputContainer = document.querySelector('.javascript-inputs')
-const list = document.createElement('ol')
-let genderRes = document.createElement('p')
+const inputContainer = document.querySelector('.javascript-inputs');
+const list = document.createElement('ol');
+const genderRes = document.createElement('p');
+const ageRes = document.createElement('p');
 // console.log(userInput, submit);
 
 
@@ -18,20 +19,35 @@ submit.addEventListener('click',()=>{
 
     // Add the name from userInput to the query string
     let link = 'https://api.nationalize.io?name='+userInput.value
+    // Gender below
+    fetch("https://api.genderize.io?name=" + userInput.value)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+        let gender = data.gender;
+        genderRes.innerText = `Your Gender is: ${gender}`;
+        inputContainer.append(genderRes);
+      })
+      .catch((e) => {
+        console.log("Error", e);
+      });
 
-    fetch('https://api.genderize.io?name='+userInput.value)
-        .then((res) => {
+    //   Start of age api
+    fetch('https://api.agify.io?name='+userInput.value)
+        .then(res=>{
             return res.json()
         })
-        .then(data =>{
-            console.log(data)
-            let gender = data.gender
-            genderRes.innerText = `Your Gender is: ${gender}`
-            inputContainer.append(genderRes)
+        .then(data=>{
+            let age = data.age;
+            ageRes.innerText = `Your age is: ${age}`;
+            inputContainer.append(ageRes);
         })
         .catch(e=>{
-            console.log('Error',e)
-        });
+            console.log('error',e)
+        })
+
     // Nationality api below
     fetch(link)
         .then(res=>{
@@ -46,8 +62,8 @@ submit.addEventListener('click',()=>{
                   list.removeChild(list.firstChild);
                 }
                 for (country of countries) {
-                  let listItem = document.createElement("li");
-                  let result = document.createElement("b");
+                  const listItem = document.createElement("li");
+                  const result = document.createElement("b");
                   countryCode = country.country_id;
                   countryProb = country.probability;
                   console.log(countryCode, countryProb);
