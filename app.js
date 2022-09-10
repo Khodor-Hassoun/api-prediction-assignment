@@ -1,7 +1,7 @@
 const userInput = document.querySelector('#userName'); // User will input the name before submitting
 const submit = document.querySelector('button');
 const dogImage = document.querySelector('.dog-image');
-const inputContainer = document.querySelector('.javascript-inputs');
+const inputContainer = document.querySelector('.javascript-outputs');
 const list = document.createElement('ol');
 const genderRes = document.createElement('p');
 const ageRes = document.createElement('p');
