@@ -2,6 +2,10 @@ const userInput = document.querySelector('#userName'); // User will input the na
 const submit = document.querySelector('button');
 const dogImage = document.querySelector('.dog-image');
 const inputContainer = document.querySelector('.javascript-outputs');
+const ageGen = document.querySelector('.gender-age')
+const nationality = document.querySelector('.nationality')
+const body = document.querySelector('body')
+
 const list = document.createElement('ol');
 const genderRes = document.createElement('p');
 const ageRes = document.createElement('p');
@@ -20,6 +24,7 @@ submit.addEventListener('click',()=>{
     // Add the name from userInput to the query string
     let link = 'https://api.nationalize.io?name='+userInput.value
     // Gender below
+    
     fetch("https://api.genderize.io?name=" + userInput.value)
       .then((res) => {
         return res.json();
@@ -28,7 +33,14 @@ submit.addEventListener('click',()=>{
         console.log(data);
         let gender = data.gender;
         genderRes.innerText = `Your Gender is: ${gender}`;
-        inputContainer.append(genderRes);
+        ageGen.append(genderRes);
+        inputContainer.append(ageGen)
+        if(data.gender =='male'){
+          body.style.backgroundColor = '#90e0ef'
+        }
+        else if(data.gender == 'female') body.style.backgroundColor = '#ffc8dd'
+        else body.style.backgroundColor = '#edf6f9'
+        
       })
       .catch((e) => {
         console.log("Error", e);
@@ -42,7 +54,8 @@ submit.addEventListener('click',()=>{
         .then(data=>{
             let age = data.age;
             ageRes.innerText = `Your age is: ${age}`;
-            inputContainer.append(ageRes);
+            ageGen.append(ageRes);
+            // inputContainer.append(ageGen)
         })
         .catch(e=>{
             console.log('error',e)
@@ -55,7 +68,7 @@ submit.addEventListener('click',()=>{
         })
         .then(data=>{
             console.log(data.country)
-            let i = 0;
+            nationality.innerHTML = '<p>You might be from:</p>'
             let countries = data.country;
             if(data.country.length != 0){
                 while (list.hasChildNodes()) {
@@ -70,7 +83,8 @@ submit.addEventListener('click',()=>{
                   result.innerText = `${countryCode}, ${countryProb}`;
                   listItem.append(result);
                   list.append(listItem);
-                  inputContainer.append(list)
+                  nationality.append(list)
+                  inputContainer.appendChild(nationality)
                 }
             }else{
                 while (list.hasChildNodes()) {
